@@ -1,0 +1,11 @@
+{
+  "name": "com.yourname.mypackage",
+  "version": "1.0.0",
+  "displayName": "My Custom Package",
+  "description": "My Unity Package",
+  "unity": "6000.0",
+  "author": {
+    "name": "Your Name",
+    "email": "you@mail.com"
+  }
+}
