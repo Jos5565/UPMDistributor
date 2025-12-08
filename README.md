@@ -10,11 +10,12 @@
 >
 > 4. Select Export Path (Your UPM Repogetory Local Path)
 > 5. Create or Select UPM Source Path (In your project)
+> 
 > 5-1. If you want Default Project, Click the "Create Default Project" Button. After Created Default Project, Source Path is fill Automaticly   
 >    
 >    <img width="944" height="434" alt="image" src="https://github.com/user-attachments/assets/f47b0ca5-2e18-45f4-ab55-3beb22243cfa" />
 >
-> 7. Change "package.json" options
+> 6. Change "package.json" options
 > 
 >    <img width="951" height="197" alt="image" src="https://github.com/user-attachments/assets/d358ee88-7a77-4b81-8f06-b6fb3f8d919b" />
 >    <img width="349" height="274" alt="image" src="https://github.com/user-attachments/assets/c6c14e6d-3620-4aba-8fbc-29aaa2e0c607" />
