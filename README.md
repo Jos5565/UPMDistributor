@@ -10,8 +10,7 @@
 >
 > 4. Select Export Path (Your UPM Repogetory Local Path)
 > 5. Create or Select UPM Source Path (In your project)
-> 
-> 5-1. If you want Default Project, Click the "Create Default Project" Button. After Created Default Project, Source Path is fill Automaticly   
+> - If you want Default Project, Click the "Create Default Project" Button. After Created Default Project, Source Path is fill Automaticly   
 >    
 >    <img width="944" height="434" alt="image" src="https://github.com/user-attachments/assets/f47b0ca5-2e18-45f4-ab55-3beb22243cfa" />
 >
