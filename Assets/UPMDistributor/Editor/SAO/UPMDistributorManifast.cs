@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UMPDistributorManifast", menuName = "UMP Publish/UMPDistributorManifast")]
-public class UMPDistributorManifast : ScriptableObject
+[CreateAssetMenu(fileName = "UPMDistributorManifast", menuName = "UPM Publish/UPMDistributorManifast")]
+public class UPMDistributorManifast : ScriptableObject
 {
     public string PackagePath;
     public string SourcePath;

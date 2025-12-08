@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f077f8e847e4a379fc4954c796e035, type: 3}
-  m_Name: UMPDistributorManifast
+  m_Name: UPMDistributorManifast
   m_EditorClassIdentifier: Assembly-CSharp-Editor::UMPDistributorManifast
   PackagePath: 
   SourcePath: 

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class GitPusher
 {
-    private UMPDistributorManifast manifast;
-    public void Run(UMPDistributorManifast manifast)
+    private UPMDistributorManifast manifast;
+    public void Run(UPMDistributorManifast manifast)
     {
         this.manifast = manifast;
 #if UNITY_EDITOR_OSX

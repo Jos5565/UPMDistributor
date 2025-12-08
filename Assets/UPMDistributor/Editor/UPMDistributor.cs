@@ -8,22 +8,22 @@ using Unity.Android.Gradle.Manifest;
 using UnityEditor;
 using UnityEngine;
 
-public class UMPDistributor : EditorWindow
+public class UPMDistributor : EditorWindow
 {
-    private UMPDistributorManifast manifast;
+    private UPMDistributorManifast manifast;
     private Vector2 wholeScrollPos;
     private string filePath;
     private bool foldoutGroupA = true;
     private GitPusher gitPusher;
 
-    [MenuItem("UMP Publish/UMP Distributor")]
+    [MenuItem("UPM Publish/UPM Distributor")]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow(typeof(UMPDistributor), false, "UMP Distributor");
+        EditorWindow.GetWindow(typeof(UPMDistributor), false, "UPM Distributor");
     }
     private void OnEnable()
     {
-        manifast = AssetDatabase.LoadAssetAtPath<UMPDistributorManifast>("Assets/UMPDistributor/UMPDistributorManifast.asset");
+        manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/UPMDistributor/UPMDistributorManifast.asset");
         gitPusher = new GitPusher();
     }
     private void OnGUI()
