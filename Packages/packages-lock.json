@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.jos.upmpackagesample": {
+      "version": "https://github.com/Jos5565/UMPPackage.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "723fe6f1d4ec1aadb61b82b3fbe827d917a3e6c6"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.9",
       "depth": 0,
