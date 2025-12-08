@@ -2,7 +2,7 @@
 > UPM Distibutor is UPM(Unity Package Manager) publish Tool
 
 # How to use
-> 1. Download Unity Package from [Release Page](https://github.com/Jos5565/UMPDistributor/releases/tag/UPMDistributor)
+> 1. Download Lasted Unity Package from [Release Page](https://github.com/Jos5565/UMPDistributor/releases)
 > 2. Install to Unity Project.
 > 3. Click "UMP Publish" -> "UMP Distributor" on Toolbar
 > 
