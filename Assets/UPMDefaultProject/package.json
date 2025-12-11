@@ -1,0 +1,1 @@
+{"name":"com.yourname.mypackage","version":"1.0.0","displayName":"My Custom Package","description":"My Unity Package","unity":"6000.0","dependencies":{"com.test.package":"1.0.12"},"author":{"name":"your Name","email":"you@mail.com"}}

@@ -11,10 +11,12 @@ using UnityEngine;
 public class UPMDistributor : EditorWindow
 {
     private UPMDistributorManifast manifast;
+    private GUIDrawUtil drawUtil;
     private Vector2 wholeScrollPos;
-    private string filePath;
+    private string packageJsonPath;
     private bool foldoutGroupA = true;
     private GitPusher gitPusher;
+    private string packageJsonFileName = "package.json";
 
     [MenuItem("UPM Publish/UPM Distributor")]
     public static void ShowWindow()
@@ -25,6 +27,8 @@ public class UPMDistributor : EditorWindow
     {
         manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/UPMDistributor/UPMDistributorManifast.asset");
         gitPusher = new GitPusher();
+        drawUtil = drawUtil == null ? new GUIDrawUtil() : drawUtil;
+        drawUtil.DependenciesList(manifast.dependencies);
     }
     private void OnGUI()
     {
@@ -49,17 +53,17 @@ public class UPMDistributor : EditorWindow
         if (GUILayout.Button("Open"))
         {
             manifast.SourcePath = EditorUtility.OpenFolderPanel("Select Folder", "", "");
-            filePath = Path.Combine(manifast.SourcePath, "package.json");
-            if (!File.Exists(filePath))
+            packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
+            if (!File.Exists(packageJsonPath))
             {
                 PackageJson json = new PackageJson();
                 manifast.packageJson = json;
-                File.WriteAllText(filePath, JsonUtility.ToJson(json));
+                File.WriteAllText(packageJsonPath, JsonUtility.ToJson(json));
                 Debug.Log("파일이 없습니다.");
             }
             else
             {
-                manifast.packageJson = JsonUtility.FromJson<PackageJson>(File.ReadAllText(filePath));
+                manifast.packageJson = JsonUtility.FromJson<PackageJson>(File.ReadAllText(packageJsonPath));
             }
         }
         EditorGUILayout.EndHorizontal();
@@ -73,7 +77,7 @@ public class UPMDistributor : EditorWindow
             System.IO.Directory.CreateDirectory(defFolder);
 
             //Create package.json
-            string packageJsonPath = Path.Combine(defFolder, "package.json");
+            packageJsonPath = Path.Combine(defFolder, packageJsonFileName);
             PackageJson json = new PackageJson();
             manifast.packageJson = json;
             File.WriteAllText(packageJsonPath, JsonUtility.ToJson(json));
@@ -103,47 +107,35 @@ public class UPMDistributor : EditorWindow
 
     private void DrawPackageJsonOptions()
     {
-        if (string.IsNullOrEmpty(manifast.SourcePath) || string.IsNullOrEmpty(filePath)) return;
+        if (string.IsNullOrEmpty(manifast.SourcePath)) return;
+        if (string.IsNullOrEmpty(packageJsonPath)) packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
         if (manifast.isPackageJson)
         {
             foldoutGroupA = EditorGUILayout.Foldout(foldoutGroupA, "package.json");
             if (foldoutGroupA)
             {
-                manifast.packageJson.name = DrawHorizontalSpaceTextField(20, "Name", manifast.packageJson.name);
-                manifast.packageJson.version = DrawHorizontalSpaceTextField(20, "Version", manifast.packageJson.version);
-                manifast.packageJson.displayName = DrawHorizontalSpaceTextField(20, "DisplayName", manifast.packageJson.displayName);
-                manifast.packageJson.description = DrawHorizontalSpaceTextField(20, "Description", manifast.packageJson.description);
-                manifast.packageJson.unity = DrawHorizontalSpaceTextField(20, "Unity", manifast.packageJson.unity);
-                DrawHorizontalSpaceLabel(20, "Author");
-                manifast.packageJson.author.name = DrawHorizontalSpaceTextField(40, "Name", manifast.packageJson.author.name);
-                manifast.packageJson.author.email = DrawHorizontalSpaceTextField(40, "Email", manifast.packageJson.author.email);
+                manifast.packageJson.name = drawUtil.TabTextField(20, "Name", manifast.packageJson.name);
+                manifast.packageJson.version = drawUtil.TabTextField(20, "Version", manifast.packageJson.version);
+                manifast.packageJson.displayName = drawUtil.TabTextField(20, "DisplayName", manifast.packageJson.displayName);
+                manifast.packageJson.description = drawUtil.TabTextField(20, "Description", manifast.packageJson.description);
+                manifast.packageJson.unity = drawUtil.TabTextField(20, "Unity", manifast.packageJson.unity);
+                drawUtil.TabLabel(20, "Author");
+                //Dependencies
+                drawUtil.DoDependenciesList(20);
+                manifast.packageJson.author.name = drawUtil.TabTextField(40, "Name", manifast.packageJson.author.name);
+                manifast.packageJson.author.email = drawUtil.TabTextField(40, "Email", manifast.packageJson.author.email);
             }
         }
     }
-    private string DrawHorizontalSpaceTextField(int space, string name, string Target)
-    {
-        string value = "";
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(space);
-        value = EditorGUILayout.TextField(name, Target);
-        GUILayout.EndHorizontal();
-        return value;
-    }
-    private void DrawHorizontalSpaceLabel(int space, string name)
-    {
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(space);
-        EditorGUILayout.LabelField(name);
-        GUILayout.EndHorizontal();
-    }
+
 
     private void DrawPublishButton()
     {
         if (string.IsNullOrEmpty(manifast.SourcePath)) return;
-        string filePath = Path.Combine(manifast.SourcePath, "package.json");
+
         if (GUILayout.Button("Publish", GUILayout.Height(30)))
         {
-            File.WriteAllText(filePath, JsonUtility.ToJson(manifast.packageJson));
+            File.WriteAllText(packageJsonPath, manifast.packageJson.ToJson(manifast.dependencies));
             gitPusher.Run(manifast);
 
             AssetDatabase.Refresh();

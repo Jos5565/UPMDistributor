@@ -9,12 +9,22 @@ public class GitPusher
     public void Run(UPMDistributorManifast manifast)
     {
         this.manifast = manifast;
+        if (string.IsNullOrEmpty(manifast.PackagePath))
+        {
+            UnityEngine.Debug.LogError("❌ Package Path is Null");
+            return;
+        }
+        if (string.IsNullOrEmpty(manifast.SourcePath))
+        {
+            UnityEngine.Debug.LogError("❌ Source Path is Null");
+            return;
+        }
 #if UNITY_EDITOR_OSX
         MacBash(ReplaceCommned());
-        MacBash(GitFetchPull());
-        MacBash(GitAdd());
-        MacBash(GitCommit());
-        MacBash(GitPush());
+        // MacBash(GitFetchPull());
+        // MacBash(GitAdd());
+        // MacBash(GitCommit());
+        // MacBash(GitPush());
 #endif
     }
 
