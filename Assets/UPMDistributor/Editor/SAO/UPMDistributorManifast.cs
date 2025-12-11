@@ -10,8 +10,6 @@ public class UPMDistributorManifast : ScriptableObject
     public string SourcePath;
     public PackageJson packageJson;
     public List<Dependence> dependencies;
-    public bool isPackageJson => !string.IsNullOrEmpty(packageJson.name);
-
 }
 [System.Serializable]
 public class PackageJson
@@ -42,10 +40,17 @@ public class PackageJson
         string json = string.Empty;
         list.ForEach(a =>
         {
-            dependencies.Add(a.packageName, a.version);
+            if (!dependencies.ContainsKey(a.packageName))
+            {
+                dependencies.Add(a.packageName, a.version);
+            }
         });
         json = JsonConvert.SerializeObject(this);
         return json;
+    }
+    public void FromJson()
+    {
+
     }
 }
 [System.Serializable]

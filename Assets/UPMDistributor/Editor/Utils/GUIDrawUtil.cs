@@ -126,12 +126,18 @@ public class GUIDrawUtil
             samples.RemoveAt(l.index);
         };
     }
-    public void DoSampleList(int space)
+    public void DoSampleList(int space, IOUtil iOUtil)
     {
         GUILayout.BeginHorizontal();
         GUILayout.Space(space);
         foldsampleList = EditorGUILayout.Foldout(foldsampleList, "Samples");
+        if (GUILayout.Button("Load Samples", GUILayout.Height(20)))
+        {
+            // TODO : On Load from ioUtil
+            iOUtil.TrySample();
+        }
         GUILayout.EndHorizontal();
+        GUILayout.Space(5);
         if (foldsampleList)
         {
             GUILayout.BeginHorizontal();

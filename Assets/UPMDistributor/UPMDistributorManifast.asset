@@ -13,4 +13,20 @@ MonoBehaviour:
   m_Name: UPMDistributorManifast
   m_EditorClassIdentifier: Assembly-CSharp-Editor::UMPDistributorManifast
   PackagePath: 
-  SourcePath: 
+  SourcePath: /Volumes/JosMac/Jos/Unity/UPMDistributor/Assets/UPMDefaultProject
+  packageJson:
+    name: com.yourname.mypackage
+    version: 1.0.0
+    displayName: My Custom Package
+    description: My Unity Package
+    unity: 6000.0
+    samples:
+    - displayName: Sample 003
+      description: 
+      path: Sample~/Sample 003
+    author:
+      name: your Name
+      email: you@mail.com
+  dependencies:
+  - packageName: com.pacakge.test
+    version: 1.0.10

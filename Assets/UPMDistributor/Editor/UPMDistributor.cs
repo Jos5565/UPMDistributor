@@ -12,11 +12,11 @@ public class UPMDistributor : EditorWindow
 {
     private UPMDistributorManifast manifast;
     private GUIDrawUtil drawUtil;
+    private IOUtil ioUtil;
     private Vector2 wholeScrollPos;
-    private string packageJsonPath;
     private bool foldoutGroupA = true;
     private GitPusher gitPusher;
-    private string packageJsonFileName = "package.json";
+
 
     [MenuItem("UPM Publish/UPM Distributor")]
     public static void ShowWindow()
@@ -28,6 +28,7 @@ public class UPMDistributor : EditorWindow
         manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/UPMDistributor/UPMDistributorManifast.asset");
         gitPusher = new GitPusher();
         drawUtil = drawUtil == null ? new GUIDrawUtil() : drawUtil;
+        ioUtil = ioUtil == null ? new IOUtil(manifast) : ioUtil;
         drawUtil.DependenciesList(manifast.dependencies);
         drawUtil.SampleList(manifast.packageJson.samples);
     }
@@ -54,18 +55,7 @@ public class UPMDistributor : EditorWindow
         if (GUILayout.Button("Open"))
         {
             manifast.SourcePath = EditorUtility.OpenFolderPanel("Select Folder", "", "");
-            packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
-            if (!File.Exists(packageJsonPath))
-            {
-                PackageJson json = new PackageJson();
-                manifast.packageJson = json;
-                File.WriteAllText(packageJsonPath, JsonUtility.ToJson(json));
-                Debug.Log("파일이 없습니다.");
-            }
-            else
-            {
-                manifast.packageJson = JsonUtility.FromJson<PackageJson>(File.ReadAllText(packageJsonPath));
-            }
+            ioUtil.SetupSourcePackage();
         }
         EditorGUILayout.EndHorizontal();
     }
@@ -74,25 +64,7 @@ public class UPMDistributor : EditorWindow
         if (!string.IsNullOrEmpty(manifast.SourcePath)) return;
         if (GUILayout.Button("Create DefaultProject", GUILayout.Height(30)))
         {
-            string defFolder = "Assets/UPMDefaultProject";
-            System.IO.Directory.CreateDirectory(defFolder);
-
-            //Create package.json
-            packageJsonPath = Path.Combine(defFolder, packageJsonFileName);
-            PackageJson json = new PackageJson();
-            manifast.packageJson = json;
-            File.WriteAllText(packageJsonPath, JsonUtility.ToJson(json));
-
-            //Create README.md
-            string readMePath = Path.Combine(defFolder, "README.md");
-            File.WriteAllText(readMePath, "");
-            //Create Runtime Folder
-            string runtimeFolderPath = Path.Combine(defFolder, "Runtime");
-            System.IO.Directory.CreateDirectory(runtimeFolderPath);
-
-            AssetDatabase.Refresh();
-
-            manifast.SourcePath = Path.GetFullPath(defFolder);
+            ioUtil.CreateDefalut();
         }
     }
     private void DrawExportFolder()
@@ -108,9 +80,8 @@ public class UPMDistributor : EditorWindow
 
     private void DrawPackageJsonOptions()
     {
-        if (string.IsNullOrEmpty(manifast.SourcePath)) return;
-        if (string.IsNullOrEmpty(packageJsonPath)) packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
-        if (manifast.isPackageJson)
+
+        if (ioUtil.TryOpenPackageJsonDef())
         {
             foldoutGroupA = EditorGUILayout.Foldout(foldoutGroupA, "package.json");
             if (foldoutGroupA)
@@ -123,7 +94,7 @@ public class UPMDistributor : EditorWindow
                 //Dependencies
                 drawUtil.DoDependenciesList(20);
                 //Samples
-                drawUtil.DoSampleList(20);
+                drawUtil.DoSampleList(20, ioUtil);
 
                 drawUtil.TabLabel(20, "Author");
                 manifast.packageJson.author.name = drawUtil.TabTextField(40, "Name", manifast.packageJson.author.name);
@@ -139,8 +110,9 @@ public class UPMDistributor : EditorWindow
 
         if (GUILayout.Button("Publish", GUILayout.Height(30)))
         {
-            File.WriteAllText(packageJsonPath, manifast.packageJson.ToJson(manifast.dependencies));
-            // gitPusher.Run(manifast);
+            // TODO : On Load from ioUtil
+            File.WriteAllText(ioUtil.packageJsonPath, manifast.packageJson.ToJson(manifast.dependencies));
+            gitPusher.Run(manifast);
 
             AssetDatabase.Refresh();
         }

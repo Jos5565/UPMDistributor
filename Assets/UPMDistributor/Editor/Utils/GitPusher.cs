@@ -21,10 +21,10 @@ public class GitPusher
         }
 #if UNITY_EDITOR_OSX
         MacBash(ReplaceCommned());
-        // MacBash(GitFetchPull());
-        // MacBash(GitAdd());
-        // MacBash(GitCommit());
-        // MacBash(GitPush());
+        MacBash(GitFetchPull());
+        MacBash(GitAdd());
+        MacBash(GitCommit());
+        MacBash(GitPush());
 #endif
     }
 
