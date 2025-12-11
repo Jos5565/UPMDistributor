@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Plastic.Newtonsoft.Json;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UPMDistributorManifast", menuName = "UPM Publish/UPMDistributorManifast")]
@@ -21,7 +22,9 @@ public class PackageJson
     public string description;
     public string unity;
     public Dictionary<string, string> dependencies;
+    public List<Sample> samples;
     public Author author;
+
 
     public PackageJson()
     {
@@ -32,6 +35,7 @@ public class PackageJson
         unity = "6000.0";
         author = new Author { name = "your Name", email = "you@mail.com" };
         dependencies = new Dictionary<string, string>();
+        samples = new List<Sample>();
     }
     public string ToJson(List<Dependence> list)
     {
@@ -55,5 +59,12 @@ public class Dependence
 {
     public string packageName;
     public string version;
+}
+[System.Serializable]
+public class Sample
+{
+    public string displayName;
+    public string description;
+    public string path;
 }
 

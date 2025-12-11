@@ -7,6 +7,8 @@ public class GUIDrawUtil
 {
     private ReorderableList dependeciesList;
     private bool foldDependeciesList = true;
+    private ReorderableList sampleList;
+    private bool foldsampleList = true;
     public void DrawOpenFolder(string fieldName, string pathTarget, string buttonName)
     {
         EditorGUILayout.BeginHorizontal();
@@ -79,6 +81,62 @@ public class GUIDrawUtil
             GUILayout.BeginHorizontal();
             GUILayout.Space(space * 2);
             dependeciesList.DoLayoutList();
+            GUILayout.EndHorizontal();
+        }
+    }
+    public void SampleList(List<Sample> samples)
+    {
+        sampleList = new ReorderableList(samples, typeof(Sample), true, true, true, true);
+
+        sampleList.drawHeaderCallback = rect =>
+        {
+            EditorGUI.LabelField(rect, "List");
+        };
+        sampleList.elementHeightCallback = index =>
+        {
+            float line = EditorGUIUtility.singleLineHeight;
+            float spacing = 4f;
+
+            return line * 3 + spacing * 4;
+        };
+        sampleList.drawElementCallback = (rect, index, isActive, isFocused) =>
+        {
+            var item = samples[index];
+
+            float line = EditorGUIUtility.singleLineHeight;
+            float spacing = 3f;
+
+            Rect r1 = new Rect(rect.x, rect.y + spacing, rect.width, line);
+            Rect r2 = new Rect(rect.x, rect.y + line + spacing * 2, rect.width, line);
+            Rect r3 = new Rect(rect.x, rect.y + (line * 2) + spacing * 3, rect.width, line);
+
+            item.displayName = EditorGUI.TextField(r1, "DisplayName", item.displayName);
+            item.description = EditorGUI.TextField(r2, "Description", item.description);
+            item.path = EditorGUI.TextField(r3, "Path", item.path);
+        };
+
+
+        sampleList.onAddCallback = l =>
+        {
+            samples.Add(new Sample());
+        };
+
+        sampleList.onRemoveCallback = l =>
+        {
+            samples.RemoveAt(l.index);
+        };
+    }
+    public void DoSampleList(int space)
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(space);
+        foldsampleList = EditorGUILayout.Foldout(foldsampleList, "Samples");
+        GUILayout.EndHorizontal();
+        if (foldsampleList)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(space * 2);
+            sampleList.DoLayoutList();
             GUILayout.EndHorizontal();
         }
     }

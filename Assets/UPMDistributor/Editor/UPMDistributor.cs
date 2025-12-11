@@ -29,6 +29,7 @@ public class UPMDistributor : EditorWindow
         gitPusher = new GitPusher();
         drawUtil = drawUtil == null ? new GUIDrawUtil() : drawUtil;
         drawUtil.DependenciesList(manifast.dependencies);
+        drawUtil.SampleList(manifast.packageJson.samples);
     }
     private void OnGUI()
     {
@@ -119,9 +120,12 @@ public class UPMDistributor : EditorWindow
                 manifast.packageJson.displayName = drawUtil.TabTextField(20, "DisplayName", manifast.packageJson.displayName);
                 manifast.packageJson.description = drawUtil.TabTextField(20, "Description", manifast.packageJson.description);
                 manifast.packageJson.unity = drawUtil.TabTextField(20, "Unity", manifast.packageJson.unity);
-                drawUtil.TabLabel(20, "Author");
                 //Dependencies
                 drawUtil.DoDependenciesList(20);
+                //Samples
+                drawUtil.DoSampleList(20);
+
+                drawUtil.TabLabel(20, "Author");
                 manifast.packageJson.author.name = drawUtil.TabTextField(40, "Name", manifast.packageJson.author.name);
                 manifast.packageJson.author.email = drawUtil.TabTextField(40, "Email", manifast.packageJson.author.email);
             }
@@ -136,7 +140,7 @@ public class UPMDistributor : EditorWindow
         if (GUILayout.Button("Publish", GUILayout.Height(30)))
         {
             File.WriteAllText(packageJsonPath, manifast.packageJson.ToJson(manifast.dependencies));
-            gitPusher.Run(manifast);
+            // gitPusher.Run(manifast);
 
             AssetDatabase.Refresh();
         }
