@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.Collections;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class IOUtil
@@ -97,15 +100,22 @@ public class IOUtil
             }
             else
             {
+                List<Sample> samples = new List<Sample>();
+                samples.AddRange(manifast.samples);
                 manifast.samples.Clear();
                 foreach (DirectoryInfo i in directories)
                 {
+
                     Sample sample = new Sample
                     {
                         displayName = i.Name,
                         description = "",
                         path = $"Sample~/{i.Name}"
                     };
+                    if (samples.Exists(x => x.displayName.Equals(sample.displayName)))
+                    {
+                        sample.description = samples.Find(a => a.displayName.Equals(sample.displayName)).description;
+                    }
                     manifast.samples.Add(sample);
                 }
                 return true;

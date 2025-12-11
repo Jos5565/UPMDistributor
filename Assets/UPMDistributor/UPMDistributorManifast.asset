@@ -12,21 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f077f8e847e4a379fc4954c796e035, type: 3}
   m_Name: UPMDistributorManifast
   m_EditorClassIdentifier: Assembly-CSharp-Editor::UMPDistributorManifast
-  PackagePath: 
+  PackagePath: /Volumes/JosMac/Jos/Unity/UMPPackage
   SourcePath: /Volumes/JosMac/Jos/Unity/UPMDistributor/Assets/UPMDefaultProject
   packageJson:
-    name: com.yourname.mypackage
-    version: 1.0.0
-    displayName: My Custom Package
-    description: My Unity Package
+    name: com.jos.packagesample
+    version: 1.0.2
+    displayName: packagesample
+    description: packagesample
     unity: 6000.0
     samples:
-    - displayName: Sample 003
-      description: 
-      path: Sample~/Sample 003
+    - displayName: New Folder
+      description: asdasdas
+      path: Sample~/New Folder
+    - displayName: Sample 004
+      description: asdasdasdasdzxczxczxczxc
+      path: Sample~/Sample 004
     author:
       name: your Name
       email: you@mail.com
   dependencies:
-  - packageName: com.pacakge.test
-    version: 1.0.10
+  - packageName: com.unity.inputsystem
+    version: 1.14.2
+  samples:
+  - displayName: New Folder
+    description: asdasdas
+    path: Sample~/New Folder
+  - displayName: Sample 004
+    description: asdasdasdasdzxczxczxczxc
+    path: Sample~/Sample 004

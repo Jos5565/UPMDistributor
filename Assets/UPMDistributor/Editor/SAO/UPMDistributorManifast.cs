@@ -56,7 +56,10 @@ public class PackageJson
     public void FromJson(string json, UPMDistributorManifast manifast)
     {
         PackageJson pj = JsonConvert.DeserializeObject<PackageJson>(json);
+        // Reset before Loading Data
         manifast.dependencies.Clear();
+        manifast.samples.Clear();
+
         foreach (KeyValuePair<string, string> item in pj.dependencies)
         {
             Dependence dependence = new Dependence { packageName = item.Key, version = item.Value };
