@@ -21,6 +21,7 @@ public class GitPusher
         }
 #if UNITY_EDITOR_OSX
         MacBash(ReplaceCommned());
+        MacBash(ReplaceSamplePathCommned());
         MacBash(GitFetchPull());
         MacBash(GitAdd());
         MacBash(GitCommit());
@@ -62,6 +63,13 @@ public class GitPusher
     private string ReplaceCommned()
     {
         string command = $"rsync -av --delete --exclude='.git' --exclude='.gitignore' --exclude='.gitattributes'  --exclude='README.md' \"{manifast.SourcePath}/.\" \"{manifast.PackagePath}\"";
+
+        return command;
+    }
+    private string ReplaceSamplePathCommned()
+    {
+        string command = $"cd {manifast.PackagePath} && mv Sample Sample~";
+
         return command;
     }
     private string GitFetchPull()

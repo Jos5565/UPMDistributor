@@ -25,7 +25,7 @@ public class UPMDistributor : EditorWindow
     }
     private void OnEnable()
     {
-        manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/UPMDistributor/UPMDistributorManifast.asset");
+        manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/Packages/UPMDistributor/UPMDistributorManifast.asset");
         gitPusher = new GitPusher();
         drawUtil = drawUtil == null ? new GUIDrawUtil() : drawUtil;
         ioUtil = ioUtil == null ? new IOUtil(manifast) : ioUtil;
