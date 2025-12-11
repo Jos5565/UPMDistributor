@@ -29,7 +29,8 @@ public class IOUtil
             else
             {
                 // Load PackageJson from folder
-                manifast.packageJson = JsonUtility.FromJson<PackageJson>(File.ReadAllText(packageJsonPath));
+                manifast.packageJson.FromJson(File.ReadAllText(packageJsonPath), manifast);
+
             }
             return true;
         }
@@ -96,7 +97,7 @@ public class IOUtil
             }
             else
             {
-                manifast.packageJson.samples.Clear();
+                manifast.samples.Clear();
                 foreach (DirectoryInfo i in directories)
                 {
                     Sample sample = new Sample
@@ -105,9 +106,8 @@ public class IOUtil
                         description = "",
                         path = $"Sample~/{i.Name}"
                     };
-                    manifast.packageJson.samples.Add(sample);
+                    manifast.samples.Add(sample);
                 }
-
                 return true;
             }
         }

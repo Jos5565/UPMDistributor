@@ -41,7 +41,7 @@ public class GUIDrawUtil
 
         dependeciesList.drawHeaderCallback = rect =>
         {
-            EditorGUI.LabelField(rect, "List");
+            EditorGUI.LabelField(rect, "Dependence List");
         };
         dependeciesList.drawElementCallback = (rect, index, isActive, isFocused) =>
         {
@@ -76,6 +76,7 @@ public class GUIDrawUtil
         GUILayout.Space(space);
         foldDependeciesList = EditorGUILayout.Foldout(foldDependeciesList, "Dependencies");
         GUILayout.EndHorizontal();
+        GUILayout.Space(5);
         if (foldDependeciesList)
         {
             GUILayout.BeginHorizontal();
@@ -87,34 +88,29 @@ public class GUIDrawUtil
     public void SampleList(List<Sample> samples)
     {
         sampleList = new ReorderableList(samples, typeof(Sample), true, true, true, true);
-
         sampleList.drawHeaderCallback = rect =>
         {
-            EditorGUI.LabelField(rect, "List");
-        };
-        sampleList.elementHeightCallback = index =>
-        {
-            float line = EditorGUIUtility.singleLineHeight;
-            float spacing = 4f;
-
-            return line * 3 + spacing * 4;
+            EditorGUI.LabelField(rect, "Sample List");
         };
         sampleList.drawElementCallback = (rect, index, isActive, isFocused) =>
         {
             var item = samples[index];
-
             float line = EditorGUIUtility.singleLineHeight;
             float spacing = 3f;
 
             Rect r1 = new Rect(rect.x, rect.y + spacing, rect.width, line);
             Rect r2 = new Rect(rect.x, rect.y + line + spacing * 2, rect.width, line);
             Rect r3 = new Rect(rect.x, rect.y + (line * 2) + spacing * 3, rect.width, line);
-
             item.displayName = EditorGUI.TextField(r1, "DisplayName", item.displayName);
             item.description = EditorGUI.TextField(r2, "Description", item.description);
             item.path = EditorGUI.TextField(r3, "Path", item.path);
         };
-
+        sampleList.elementHeightCallback = index =>
+        {
+            float line = EditorGUIUtility.singleLineHeight;
+            float spacing = 4f;
+            return line * 3 + spacing * 4;
+        };
 
         sampleList.onAddCallback = l =>
         {

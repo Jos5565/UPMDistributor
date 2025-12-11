@@ -30,7 +30,7 @@ public class UPMDistributor : EditorWindow
         drawUtil = drawUtil == null ? new GUIDrawUtil() : drawUtil;
         ioUtil = ioUtil == null ? new IOUtil(manifast) : ioUtil;
         drawUtil.DependenciesList(manifast.dependencies);
-        drawUtil.SampleList(manifast.packageJson.samples);
+        drawUtil.SampleList(manifast.samples);
     }
     private void OnGUI()
     {
@@ -80,10 +80,19 @@ public class UPMDistributor : EditorWindow
 
     private void DrawPackageJsonOptions()
     {
-
         if (ioUtil.TryOpenPackageJsonDef())
         {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(10);
             foldoutGroupA = EditorGUILayout.Foldout(foldoutGroupA, "package.json");
+            if (GUILayout.Button("Load package.json"))
+            {
+                ioUtil.SetupSourcePackage();
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+
             if (foldoutGroupA)
             {
                 manifast.packageJson.name = drawUtil.TabTextField(20, "Name", manifast.packageJson.name);
@@ -111,11 +120,12 @@ public class UPMDistributor : EditorWindow
         if (GUILayout.Button("Publish", GUILayout.Height(30)))
         {
             // TODO : On Load from ioUtil
-            File.WriteAllText(ioUtil.packageJsonPath, manifast.packageJson.ToJson(manifast.dependencies));
+            File.WriteAllText(ioUtil.packageJsonPath, manifast.packageJson.ToJson(manifast));
             gitPusher.Run(manifast);
 
             AssetDatabase.Refresh();
         }
+        GUILayout.Space(20);
     }
 
 }
