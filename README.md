@@ -16,13 +16,15 @@
 >
 > 6. Change "package.json" options
 > 
->    <img width="951" height="197" alt="image" src="https://github.com/user-attachments/assets/d358ee88-7a77-4b81-8f06-b6fb3f8d919b" />
+>    <img width="1049" height="578" alt="image" src="https://github.com/user-attachments/assets/518d065f-1a00-43e1-bf75-224c3787600b" />
 >    <img width="349" height="274" alt="image" src="https://github.com/user-attachments/assets/c6c14e6d-3620-4aba-8fbc-29aaa2e0c607" />
 > - Name : Package Id
 > - Version : Package Version
 > - DisplayName : Unity Display Package Name 
 > - Description : Package Desciption
 > - Unity : Unity Min Version
+> - Dependecies : PackageName, Version
+> - Samples :  Parse Sample DisplayName, Path from Local Sample Path
 > 7. Add your Project to "Runtime" folder or "Editor" folder on " UPM Source Path "
 >     
 >    <img width="555" height="287" alt="스크린샷 2025-12-08 16 44 50" src="https://github.com/user-attachments/assets/d16482e1-5698-4488-8e10-fe3e8b650937" />
