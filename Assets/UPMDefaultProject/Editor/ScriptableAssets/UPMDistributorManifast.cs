@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Security;
 using Unity.Plastic.Newtonsoft.Json;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UPMDistributorManifast", menuName = "UPM Publish/UPMDistributorManifast")]
@@ -55,11 +53,13 @@ public class PackageJson
     }
     public void FromJson(string json, UPMDistributorManifast manifast)
     {
+        Debug.Log(json);
         PackageJson pj = JsonConvert.DeserializeObject<PackageJson>(json);
+        if (manifast.dependencies == null) manifast.dependencies = new List<Dependence>();
+        if (manifast.samples == null) manifast.samples = new List<Sample>();
+        if (manifast.dependencies.Count > 0) manifast.dependencies.Clear();
+        if (manifast.samples.Count > 0) manifast.samples.Clear(); ;
         // Reset before Loading Data
-        manifast.dependencies.Clear();
-        manifast.samples.Clear();
-
         foreach (KeyValuePair<string, string> item in pj.dependencies)
         {
             Dependence dependence = new Dependence { packageName = item.Key, version = item.Value };

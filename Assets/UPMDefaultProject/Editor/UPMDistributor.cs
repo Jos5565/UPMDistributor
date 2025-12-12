@@ -11,6 +11,7 @@ using UnityEngine;
 public class UPMDistributor : EditorWindow
 {
     private UPMDistributorManifast manifast;
+    private bool isManifast = false;
     private GUIDrawUtil drawUtil;
     private IOUtil ioUtil;
     private Vector2 wholeScrollPos;
@@ -25,17 +26,28 @@ public class UPMDistributor : EditorWindow
     }
     private void OnEnable()
     {
-        manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/Packages/UPMDistributor/UPMDistributorManifast.asset");
+
         gitPusher = new GitPusher();
         drawUtil = drawUtil == null ? new GUIDrawUtil() : drawUtil;
-        ioUtil = ioUtil == null ? new IOUtil(manifast) : ioUtil;
+        ioUtil = ioUtil == null ? new IOUtil() : ioUtil;
+
+    }
+    private void Setup()
+    {
+        ioUtil.manifast = manifast;
         drawUtil.DependenciesList(manifast.dependencies);
         drawUtil.SampleList(manifast.samples);
     }
     private void OnGUI()
     {
         wholeScrollPos = EditorGUILayout.BeginScrollView(wholeScrollPos, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)); // 스크롤 시작
-
+        DrawSAUpdate();
+        if (!isManifast)
+        {
+            EditorGUILayout.EndScrollView(); // 스크롤 끝
+            return;
+        }
+        EditorGUILayout.Space(10);
         DrawSourceFolder();
         EditorGUILayout.Space(10);
         DrawCreateDefaultProjectButton();
@@ -46,6 +58,32 @@ public class UPMDistributor : EditorWindow
         EditorGUILayout.Space(10);
         DrawPublishButton();
         EditorGUILayout.EndScrollView(); // 스크롤 끝
+    }
+    private void DrawSAUpdate()
+    {
+
+        GUILayout.BeginHorizontal();
+        //  manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/UPMDistributorManifast.asset");
+        manifast = (UPMDistributorManifast)EditorGUILayout.ObjectField(manifast, typeof(UPMDistributorManifast), true);
+        var style = new GUIStyle(GUI.skin.button);
+        style.fixedWidth = 150;
+        style.fontSize = 12;
+
+        if (GUILayout.Button("Create", style))
+        {
+            ioUtil.CreateUPMAsset();
+        }
+        GUILayout.EndHorizontal();
+
+        if (manifast != null)
+        {
+            Setup();
+            isManifast = true;
+        }
+        else
+        {
+            isManifast = false;
+        }
     }
 
     private void DrawSourceFolder()

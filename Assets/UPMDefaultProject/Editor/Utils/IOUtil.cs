@@ -9,18 +9,38 @@ using UnityEngine;
 
 public class IOUtil
 {
-    private UPMDistributorManifast manifast;
+    public UPMDistributorManifast manifast;
     public string packageJsonPath;
     private string samplePath;
     private string packageJsonFileName = "package.json";
-    public IOUtil(UPMDistributorManifast manifast)
+    public IOUtil()
     {
-        this.manifast = manifast;
+    }
+    public void CreateUPMAsset()
+    {
+        //Create Scriptableasset
+        string[] folders = { "Assets/ScriptableAssets" };
+        string filter = "t:UPMDistributorManifast";
+        string[] guids = AssetDatabase.FindAssets(filter, folders);
+        bool exists = guids.Length > 0;
+
+        if (!exists)
+        {
+            if (!Directory.Exists("Assets/ScriptableAssets"))
+            {
+                Directory.CreateDirectory("Assets/ScriptableAssets");
+            }
+            AssetDatabase.CreateAsset(new UPMDistributorManifast(), "Assets/ScriptableAssets/New UPMDistributorManifast.asset");
+            AssetDatabase.Refresh();
+            manifast = AssetDatabase.LoadAssetAtPath<UPMDistributorManifast>("Assets/ScriptableAssets/New UPMDistributorManifast.asset");
+        }
+
     }
     public bool SetupSourcePackage()
     {
         try
         {
+            Debug.Log(packageJsonPath);
             packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
             if (!File.Exists(packageJsonPath))
             {
@@ -32,8 +52,8 @@ public class IOUtil
             else
             {
                 // Load PackageJson from folder
+                Debug.Log("manifaset");
                 manifast.packageJson.FromJson(File.ReadAllText(packageJsonPath), manifast);
-
             }
             return true;
         }
@@ -81,10 +101,14 @@ public class IOUtil
         {
             return false;
         }
-        if (string.IsNullOrEmpty(packageJsonPath))
+        else
         {
-            packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
+            if (string.IsNullOrEmpty(packageJsonPath))
+            {
+                packageJsonPath = Path.Combine(manifast.SourcePath, packageJsonFileName);
+            }
         }
+
         return true;
     }
     public bool TrySample()

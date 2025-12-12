@@ -1,1 +1,1 @@
-{"name":"com.jos.packagesample","version":"1.0.2","displayName":"packagesample","description":"packagesample","unity":"6000.0","dependencies":{"com.unity.inputsystem":"1.14.2"},"samples":[{"displayName":"Sample 004","description":"asdasdasdasdzxczxczxczxc","path":"Sample~/Sample 004"}],"author":{"name":"your Name","email":"you@mail.com"}}
+{"name":"com.jos.upmpublish","version":"1.0.3","displayName":"UPM Publish","description":"UPM Publish Manager for Untiy Editor","unity":"6000.0","dependencies":{},"samples":[],"author":{"name":"Jos","email":"tjr3044@deepfine.com"}}
